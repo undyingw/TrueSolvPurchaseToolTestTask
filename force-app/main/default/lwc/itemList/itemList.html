@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Items">
+        <div class="slds-p-around_medium">
+            <template if:true={items}>
+                <template for:each={items} for:item="item">
+                    <div key={item.Id} class="slds-m-bottom_small">
+                        <p>{item.Name} — {item.Price__c}</p>
+                        <lightning-button 
+                            data-id={item.Id} 
+                            label="Add to Cart" 
+                            onclick={handleAddToCart}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </template>
+            <template if:false={items}>
+                <p>No items found.</p>
+            </template>
+        </div>
+
+        <footer class="slds-card__footer">
+            <lightning-button 
+                label="Open Cart" 
+                variant="brand" 
+                onclick={handleOpenCart}>
+            </lightning-button>
+        </footer>
+    </lightning-card>
+
+    <c-cart-modal account-id="001XXXXXXXXXXXXXXX"></c-cart-modal>
+</template>
