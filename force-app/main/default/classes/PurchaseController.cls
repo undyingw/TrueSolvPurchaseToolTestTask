@@ -8,7 +8,7 @@ public with sharing class PurchaseController {
     @AuraEnabled
     public static Id createPurchase(Id accountId, List<CartItem> cart) {
         Purchase__c purchase = new Purchase__c();
-        purchase.ClientId__c = accountId;
+        purchase.Client_ID__c = accountId;
         insert purchase;
 
         List<PurchaseLine__c> lines = new List<PurchaseLine__c>();
