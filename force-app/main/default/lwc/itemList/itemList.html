@@ -1,18 +1,48 @@
 <template>
     <lightning-card title="Items">
         <div class="slds-p-around_medium">
+
+            <!-- search -->
+            <lightning-input type="search" label="Search" onchange={handleSearch}></lightning-input>
+
+            <!-- filter -->
+            <lightning-combobox 
+                label="Family" 
+                options={familyOptions} 
+                value={familyValue} 
+                onchange={handleFamily}>
+            </lightning-combobox>
+
+            <lightning-combobox 
+                label="Type" 
+                options={typeOptions} 
+                value={typeValue} 
+                onchange={handleType}>
+            </lightning-combobox>
+
+            <p>Total items: {items.length}</p>
+
+            <!-- list of goods -->
             <template if:true={items}>
                 <template for:each={items} for:item="item">
                     <div key={item.Id} class="slds-m-bottom_small">
-                        <p>{item.Name} — {item.Price__c}</p>
+                        <p>{item.Name} -- {item.Price__c}</p>
+
                         <lightning-button 
                             data-id={item.Id} 
                             label="Add to Cart" 
                             onclick={handleAddToCart}>
                         </lightning-button>
+
+                        <lightning-button 
+                            data-id={item.Id} 
+                            label="Details" 
+                            onclick={handleShowDetails}>
+                        </lightning-button>
                     </div>
                 </template>
             </template>
+
             <template if:false={items}>
                 <p>No items found.</p>
             </template>
@@ -24,8 +54,18 @@
                 variant="brand" 
                 onclick={handleOpenCart}>
             </lightning-button>
+
+            <template if:true={isManager}>
+                <lightning-button 
+                    label="Create Item" 
+                    variant="neutral" 
+                    onclick={handleOpenCreate}>
+                </lightning-button>
+            </template>
         </footer>
     </lightning-card>
 
-    <c-cart-modal account-id="001XXXXXXXXXXXXXXX"></c-cart-modal>
+    <c-cart-modal account-id={accountId}></c-cart-modal>
+    <c-item-details-modal></c-item-details-modal>
+    <c-create-item-modal></c-create-item-modal>
 </template>
