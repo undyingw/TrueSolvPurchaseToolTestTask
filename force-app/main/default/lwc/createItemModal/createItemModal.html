@@ -1,24 +1,26 @@
-<template if:true={isOpen}>
-    <section class="slds-modal slds-fade-in-open">
-        <div class="slds-modal__container">
-            <header class="slds-modal__header">
-                <h2>New Item</h2>
-            </header>
-            <div class="slds-modal__content slds-p-around_medium">
-                <lightning-record-edit-form object-api-name="Item__c" onsuccess={handleSuccess}>
-                    <lightning-input-field field-name="Name"></lightning-input-field>
-                    <lightning-input-field field-name="Description__c"></lightning-input-field>
-                    <lightning-input-field field-name="Family__c"></lightning-input-field>
-                    <lightning-input-field field-name="Type__c"></lightning-input-field>
-                    <lightning-input-field field-name="Image__c"></lightning-input-field>
-                    <lightning-input-field field-name="Price__c"></lightning-input-field>
-                    <lightning-button type="submit" label="Save" variant="brand"></lightning-button>
-                </lightning-record-edit-form>
+<template>
+    <template if:true={isOpen}>
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2>New Item</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-record-edit-form object-api-name="Item__c" onsuccess={handleSuccess}>
+                        <lightning-input-field field-name="Name"></lightning-input-field>
+                        <lightning-input-field field-name="Description__c"></lightning-input-field>
+                        <lightning-input-field field-name="Family__c"></lightning-input-field>
+                        <lightning-input-field field-name="Type__c"></lightning-input-field>
+                        <lightning-input-field field-name="Image__c"></lightning-input-field>
+                        <lightning-input-field field-name="Price__c"></lightning-input-field>
+                        <lightning-button type="submit" label="Save" variant="brand"></lightning-button>
+                    </lightning-record-edit-form>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                </footer>
             </div>
-            <footer class="slds-modal__footer">
-                <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
-            </footer>
-        </div>
-    </section>
-    <div class="slds-backdrop slds-backdrop_open"></div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>
