@@ -6,10 +6,13 @@ export default class ItemDetailsModal extends LightningElement {
     @track item;
 
     openModal(itemId) {
-        getItemDetails({ itemId })
+        getItemDetails({ itemId: itemId })
             .then(result => {
                 this.item = result;
                 this.isOpen = true;
+            })
+            .catch(error => {
+                console.error('Error loading item details', error);
             });
     }
 
