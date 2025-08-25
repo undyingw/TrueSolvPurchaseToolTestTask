@@ -1,12 +1,18 @@
-# This file is used for Git repositories to specify intentionally untracked files that Git should ignore. 
-# If you are not using git, you can delete this file. For more information see: https://git-scm.com/docs/gitignore
-# For useful gitignore templates see: https://github.com/github/gitignore
+# --------------------------------------------------
+# Git Ignore for Salesforce DX projects
+# Docs: https://git-scm.com/docs/gitignore
+# Templates: https://github.com/github/gitignore
+# --------------------------------------------------
 
-# Salesforce cache
+# Salesforce cache and local metadata
 .sf/
 .sfdx/
 .localdevserver/
 deploy-options.json
+
+# VS Code project settings (optional to ignore if you don't share IDE configs)
+.vscode/
+.idea/
 
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
@@ -27,8 +33,11 @@ node_modules/
 # ApexPMD cache
 .pmdCache
 
-# Eslint cache
+# ESLint cache
 .eslintcache
+
+# Prettier cache
+.prettiercache
 
 # MacOS system files
 .DS_Store
@@ -39,10 +48,20 @@ ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
+# Linux temp files
+*~
+
 # Local environment variables
 .env
+.env.local
+.env.*.local
 
 # Python Salesforce Functions
 **/__pycache__/
 **/.venv/
 **/venv/
+*.pyc
+
+# Optional: exclude test-results
+test-output/
+junit/
