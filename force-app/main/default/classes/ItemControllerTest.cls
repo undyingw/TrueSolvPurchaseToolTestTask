@@ -97,7 +97,7 @@ public class ItemControllerTest {
         Item__c laptop = [SELECT Id, Price__c FROM Item__c WHERE Name = 'Laptop' LIMIT 1];
 
         PurchaseLine__c line = new PurchaseLine__c(
-            Item__c = laptop.Id,
+            Item_Id__c = laptop.Id,
             Amount__c = 2,
             UnitCost__c = laptop.Price__c
         );
