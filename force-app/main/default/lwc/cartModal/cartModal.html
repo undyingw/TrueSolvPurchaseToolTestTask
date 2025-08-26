@@ -5,11 +5,16 @@
                 <header class="slds-modal__header">
                     <h2 class="slds-text-heading_medium">Cart</h2>
                 </header>
+
                 <div class="slds-modal__content slds-p-around_medium">
-                    <template for:each={cart} for:item="item">
-                        <p key={item.Id}>{item.Name} — {item.amount} × {item.Price__c}</p>
-                    </template>
+                    <lightning-datatable
+                        key-field="Id"
+                        data={cart}
+                        columns={columns}
+                        hide-checkbox-column="true">
+                    </lightning-datatable>
                 </div>
+
                 <footer class="slds-modal__footer">
                     <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
                     <lightning-button variant="brand" label="Checkout" onclick={handleCheckout}></lightning-button>

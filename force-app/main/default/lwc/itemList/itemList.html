@@ -1,70 +1,103 @@
 <template>
-    <lightning-card title="Items">
-        <div class="slds-p-around_medium">
-
-            <!-- search -->
-            <lightning-input type="search" label="Search" onchange={handleSearch}></lightning-input>
-
-            <!-- filter -->
-            <lightning-combobox 
-                label="Family" 
-                options={familyOptions} 
-                value={familyValue} 
-                onchange={handleFamily}>
-            </lightning-combobox>
-
-            <lightning-combobox 
-                label="Type" 
-                options={typeOptions} 
-                value={typeValue} 
-                onchange={handleType}>
-            </lightning-combobox>
-
-            <p>Total items: {items.length}</p>
-
-            <!-- list of goods -->
-            <template if:true={items}>
-                <template for:each={items} for:item="item">
-                    <div key={item.Id} class="slds-m-bottom_small">
-                        <p>{item.Name} -- {item.Price__c}</p>
-
-                        <lightning-button 
-                            data-id={item.Id} 
-                            label="Add to Cart" 
-                            onclick={handleAddToCart}>
-                        </lightning-button>
-
-                        <lightning-button 
-                            data-id={item.Id} 
-                            label="Details" 
-                            onclick={handleShowDetails}>
-                        </lightning-button>
-                    </div>
+    <lightning-card title="Item Purchase Tool">
+        <!-- Верхняя панель -->
+        <div class="slds-grid slds-p-around_medium slds-grid_align-spread slds-border_bottom">
+            <!-- Левая часть -->
+            <div>
+                <template if:true={isManager}>
+                    <lightning-button 
+                        label="Create Item" 
+                        variant="neutral" 
+                        onclick={handleOpenCreate}>
+                    </lightning-button>
                 </template>
-            </template>
+            </div>
 
-            <template if:false={items}>
-                <p>No items found.</p>
-            </template>
+            <!-- Центр: данные аккаунта -->
+            <div>
+                <p><b>Account Name:</b> {accountName}</p>
+                <p><b>Account Number:</b> {accountNumber}</p>
+                <p><b>Industry:</b> {accountIndustry}</p>
+            </div>
+
+            <!-- Правая часть -->
+            <div>
+                <lightning-button 
+                    label="Cart" 
+                    variant="brand" 
+                    onclick={handleOpenCart}>
+                </lightning-button>
+            </div>
         </div>
 
-        <footer class="slds-card__footer">
-            <lightning-button 
-                label="Open Cart" 
-                variant="brand" 
-                onclick={handleOpenCart}>
-            </lightning-button>
+        <div class="slds-grid slds-p-around_medium">
+            <!-- Левая часть: поиск + карточки -->
+            <div class="slds-col slds-size_3-of-4">
+                <!-- Поиск -->
+                <lightning-input 
+                    type="search" 
+                    placeholder="Search items..." 
+                    onchange={handleSearch}>
+                </lightning-input>
 
-            <template if:true={isManager}>
-                <lightning-button 
-                    label="Create Item" 
-                    variant="neutral" 
-                    onclick={handleOpenCreate}>
-                </lightning-button>
-            </template>
-        </footer>
+                <!-- Сетка карточек -->
+                <div class="slds-grid slds-wrap slds-m-top_medium">
+                    <template if:true={items}>
+                        <template for:each={items} for:item="item">
+                            <div key={item.Id} class="slds-col slds-size_1-of-3 slds-p-around_small">
+                                <lightning-card title={item.Name} icon-name="utility:products">
+                                    <div class="slds-p-horizontal_small">
+                                        <template if:true={item.Image__c}>
+                                            <img src={item.Image__c} alt="Item image" style="max-width:100%; margin-bottom:10px;" />
+                                        </template>
+                                        <p>{item.Description__c}</p>
+                                        <p><b>Price:</b> {item.Price__c}</p>
+                                    </div>
+                                    <div class="slds-card__footer">
+                                        <lightning-button 
+                                            label="Details" 
+                                            data-id={item.Id}
+                                            onclick={handleShowDetails}>
+                                        </lightning-button>
+                                        <lightning-button 
+                                            label="Add" 
+                                            variant="brand"
+                                            class="slds-m-left_small"
+                                            data-id={item.Id} 
+                                            onclick={handleAddToCart}>
+                                        </lightning-button>
+                                    </div>
+                                </lightning-card>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={items}>
+                        <p>No items found.</p>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Правая часть: фильтры -->
+            <div class="slds-col slds-size_1-of-4 slds-p-left_medium">
+                <h3 class="slds-text-title_bold">Filters</h3>
+                <lightning-combobox 
+                    label="Type" 
+                    options={typeOptions} 
+                    value={typeValue} 
+                    onchange={handleType}>
+                </lightning-combobox>
+                <lightning-combobox 
+                    label="Family" 
+                    options={familyOptions} 
+                    value={familyValue} 
+                    onchange={handleFamily}>
+                </lightning-combobox>
+                <p class="slds-m-top_small">Total items: {items.length}</p>
+            </div>
+        </div>
     </lightning-card>
 
+    <!-- Модалки -->
     <c-cart-modal account-id={accountId}></c-cart-modal>
     <c-item-details-modal></c-item-details-modal>
     <c-create-item-modal></c-create-item-modal>

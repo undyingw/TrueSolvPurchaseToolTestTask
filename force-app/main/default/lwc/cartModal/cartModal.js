@@ -6,8 +6,20 @@ export default class CartModal extends LightningElement {
     @track cart = [];
     @track isOpen = false;
 
+    // Колонки для таблицы
+    columns = [
+        { label: 'Name', fieldName: 'Name' },
+        { label: 'Amount', fieldName: 'amount', type: 'number' },
+        { label: 'Unit Price', fieldName: 'Price__c', type: 'currency' },
+        { label: 'Total', fieldName: 'totalPrice', type: 'currency' }
+    ];
+
     openModal(cart) {
-        this.cart = cart;
+        // Добавляем вычисляемое поле totalPrice
+        this.cart = cart.map(c => ({
+            ...c,
+            totalPrice: c.amount * c.Price__c
+        }));
         this.isOpen = true;
     }
 
@@ -25,6 +37,9 @@ export default class CartModal extends LightningElement {
             .then(purchaseId => {
                 window.open('/' + purchaseId, '_blank');
                 this.isOpen = false;
+            })
+            .catch(error => {
+                console.error('Error creating purchase', error);
             });
     }
 }

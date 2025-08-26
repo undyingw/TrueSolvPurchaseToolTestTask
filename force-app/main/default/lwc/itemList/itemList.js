@@ -1,15 +1,23 @@
 import { LightningElement, track, wire, api } from 'lwc';
-import getItems from '@salesforce/apex/ItemController.getItems';
+import getItems from '@salesforce/apex/ItemController.getAllItems';
 import searchItems from '@salesforce/apex/ItemController.searchItems';
 import getItemsByFilter from '@salesforce/apex/ItemController.getItemsByFilter';
 import { getRecord } from 'lightning/uiRecordApi';
 import ISMANAGER_FIELD from '@salesforce/schema/User.IsManager__c';
 import USER_ID from '@salesforce/user/Id';
+import NAME_FIELD from '@salesforce/schema/Account.Name';
+import NUMBER_FIELD from '@salesforce/schema/Account.AccountNumber';
+import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
 
 export default class ItemList extends LightningElement {
     @track items = [];
     @track cart = [];
     @api accountId;
+
+    // данные аккаунта
+    @track accountName;
+    @track accountNumber;
+    @track accountIndustry;
 
     familyOptions = [
         { label: 'All', value: '' },
@@ -26,7 +34,7 @@ export default class ItemList extends LightningElement {
     typeValue = '';
     isManager = false;
 
-    // if user is manager
+    // Если юзер менеджер
     @wire(getRecord, { recordId: USER_ID, fields: [ISMANAGER_FIELD] })
     wiredUser({ data, error }) {
         if (data) {
@@ -36,7 +44,19 @@ export default class ItemList extends LightningElement {
         }
     }
 
-    // getting goods
+    // Аккаунт
+    @wire(getRecord, { recordId: '$accountId', fields: [NAME_FIELD, NUMBER_FIELD, INDUSTRY_FIELD] })
+    wiredAccount({ data, error }) {
+        if (data) {
+            this.accountName = data.fields.Name.value;
+            this.accountNumber = data.fields.AccountNumber.value;
+            this.accountIndustry = data.fields.Industry.value;
+        } else if (error) {
+            console.error(error);
+        }
+    }
+
+    // Получение всех товаров
     @wire(getItems)
     wiredItems({ data, error }) {
         if (data) {
