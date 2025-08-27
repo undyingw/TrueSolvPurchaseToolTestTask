@@ -9,8 +9,8 @@ public class PurchaseControllerTest {
         Item__c item = new Item__c(
             Name = 'Phone',
             Description__c = 'Smartphone',
-            Family__c = 'Electronics',
-            Type__c = 'New',
+            Family__c = 'option1',
+            Type__c = 'Electronics',
             Price__c = 500
         );
         insert item;
@@ -38,7 +38,6 @@ public class PurchaseControllerTest {
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Item__c item = [SELECT Id, Price__c FROM Item__c LIMIT 1];
 
-        // создаём заказ
         PurchaseController.CartItem ci = new PurchaseController.CartItem();
         ci.itemId = item.Id;
         ci.amount = 1;
@@ -57,7 +56,6 @@ public class PurchaseControllerTest {
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Item__c item = [SELECT Id, Price__c FROM Item__c LIMIT 1];
 
-        // создаём заказ
         PurchaseController.CartItem ci = new PurchaseController.CartItem();
         ci.itemId = item.Id;
         ci.amount = 1;

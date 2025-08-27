@@ -9,8 +9,8 @@ public class PurchaseLineTriggerTest {
         Item__c item = new Item__c(
             Name = 'Tablet',
             Description__c = 'Tablet device',
-            Family__c = 'Electronics',
-            Type__c = 'New',
+            Family__c = 'option1',
+            Type__c = 'Electronics',
             Price__c = 300
         );
         insert item;
