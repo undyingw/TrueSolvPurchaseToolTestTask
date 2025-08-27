@@ -15,8 +15,8 @@ public class ItemControllerTest {
 
         // Книга
         Item__c item2 = new Item__c(
-            Name = 'Book',
-            Description__c = 'Good book',
+            Name = 'Dress',
+            Description__c = 'Good dress',
             Family__c = 'option2',
             Type__c = 'Clothes',
             Price__c = 20
@@ -81,14 +81,14 @@ public class ItemControllerTest {
 
     @isTest
     static void testGetItemDetails() {
-        Item__c anyItem = [SELECT Id FROM Item__c WHERE Name = 'Book' LIMIT 1];
+        Item__c anyItem = [SELECT Id FROM Item__c WHERE Name = 'Dress' LIMIT 1];
 
         Test.startTest();
         Item__c detail = ItemController.getItemDetails(anyItem.Id);
         Test.stopTest();
 
         System.assertNotEquals(null, detail, 'Details should be returned');
-        System.assertEquals('Book', detail.Name);
+        System.assertEquals('Dress', detail.Name);
     }
 
     @isTest
