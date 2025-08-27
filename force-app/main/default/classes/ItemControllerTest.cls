@@ -7,7 +7,7 @@ public class ItemControllerTest {
         Item__c item1 = new Item__c(
             Name = 'Laptop',
             Description__c = 'Nice laptop',
-            Family__c = 'option1',
+            Family__c = 'Electronics',
             Type__c = 'Electronics',
             Price__c = 1000
         );
@@ -17,7 +17,7 @@ public class ItemControllerTest {
         Item__c item2 = new Item__c(
             Name = 'Dress',
             Description__c = 'Good dress',
-            Family__c = 'option2',
+            Family__c = 'Clothes',
             Type__c = 'Clothes',
             Price__c = 20
         );
@@ -27,7 +27,7 @@ public class ItemControllerTest {
         Item__c item3 = new Item__c(
             Name = 'Headphones',
             Description__c = 'Wireless headphones',
-            Family__c = 'option3',
+            Family__c = 'Electronics',
             Type__c = 'Electronics',
             Price__c = 200
         );
@@ -45,13 +45,13 @@ public class ItemControllerTest {
         Test.stopTest();
 
         System.assert(items.size() >= 3, 'Should return at least 3 items');
-        System.assertEquals('Book', items[0].Name, 'Items should be ordered by Name');
+        System.assertEquals('Dress', items[0].Name, 'Items should be ordered by Name');
     }
 
     @isTest
     static void testGetItemsByFilter() {
         Test.startTest();
-        List<Item__c> electronics = ItemController.getItemsByFilter('option1', 'Electronics');
+        List<Item__c> electronics = ItemController.getItemsByFilter('Electronics', 'Electronics');
         Test.stopTest();
 
         System.assert(electronics.size() >= 1, 'Should return electronics with valid type');
@@ -91,6 +91,14 @@ public class ItemControllerTest {
         System.assertEquals('Dress', detail.Name);
     }
 
+
+    /**
+     * Тест проверяет полный сценарий "checkoutCart":
+     * - создаётся новый Purchase__c
+     * - к нему добавляются строки PurchaseLine__c
+     * - триггер автоматически пересчитывает TotalItems__c и GrandTotal__c
+     * Таким образом, гарантируется, что корзина оформляется корректно.
+    */
     @isTest
     static void testCheckoutCart() {
         Account acc = [SELECT Id FROM Account LIMIT 1];
@@ -110,8 +118,8 @@ public class ItemControllerTest {
 
         Purchase__c purchase = [SELECT Id, TotalItems__c, GrandTotal__c 
                                 FROM Purchase__c WHERE Id = :purchaseId LIMIT 1];
-        System.assertEquals(0, purchase.TotalItems__c, 'Totals should be 0 initially (trigger will recalc)');
-        System.assertEquals(0, purchase.GrandTotal__c, 'GrandTotal should be 0 initially');
+        System.assertEquals(2, purchase.TotalItems__c, 'Totals should equal amount of items');
+        System.assertEquals(2 * laptop.Price__c, purchase.GrandTotal__c, 'GrandTotal should equal amount * price');
         
         List<PurchaseLine__c> lines = [SELECT Id, Purchase_Id__c FROM PurchaseLine__c WHERE Purchase_Id__c = :purchaseId];
         System.assertEquals(1, lines.size(), 'Cart line should be linked to purchase');

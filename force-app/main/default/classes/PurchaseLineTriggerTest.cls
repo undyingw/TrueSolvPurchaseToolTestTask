@@ -7,11 +7,11 @@ public class PurchaseLineTriggerTest {
         insert acc;
 
         Item__c item = new Item__c(
-            Name = 'Tablet',
-            Description__c = 'Tablet device',
-            Family__c = 'option1',
-            Type__c = 'Electronics',
-            Price__c = 300
+        Name = 'Tablet',
+        Description__c = 'Tablet device',
+        Family__c = 'Electronics', 
+        Type__c = 'Electronics',
+        Price__c = 300
         );
         insert item;
 

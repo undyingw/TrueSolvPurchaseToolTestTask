@@ -9,7 +9,7 @@ public class PurchaseControllerTest {
         Item__c item = new Item__c(
             Name = 'Phone',
             Description__c = 'Smartphone',
-            Family__c = 'option1',
+            Family__c = 'Electronics',
             Type__c = 'Electronics',
             Price__c = 500
         );
