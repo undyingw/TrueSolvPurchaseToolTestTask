@@ -3,7 +3,7 @@ import getItems from '@salesforce/apex/ItemController.getAllItems';
 import searchItems from '@salesforce/apex/ItemController.searchItems';
 import getItemsByFilter from '@salesforce/apex/ItemController.getItemsByFilter';
 import { getRecord } from 'lightning/uiRecordApi';
-import ISMANAGER_FIELD from '@salesforce/schema/User.IsManager__c';
+import ISMANAGER_FIELD from '@salesforce/schema/User.isManager__c';
 import USER_ID from '@salesforce/user/Id';
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import NUMBER_FIELD from '@salesforce/schema/Account.AccountNumber';
@@ -37,20 +37,20 @@ export default class ItemList extends LightningElement {
     // Если юзер менеджер
     @wire(getRecord, { recordId: USER_ID, fields: [ISMANAGER_FIELD] })
     wiredUser({ data, error }) {
-        if (data) {
-            this.isManager = data.fields.IsManager__c.value;
+        if (data && data.fields && data.fields.isManager__c) {
+            this.isManager = data.fields.isManager__c.value;
         } else if (error) {
-            console.error(error);
+         console.error(error);
         }
     }
 
     // Аккаунт
     @wire(getRecord, { recordId: '$accountId', fields: [NAME_FIELD, NUMBER_FIELD, INDUSTRY_FIELD] })
     wiredAccount({ data, error }) {
-        if (data) {
-            this.accountName = data.fields.Name.value;
-            this.accountNumber = data.fields.AccountNumber.value;
-            this.accountIndustry = data.fields.Industry.value;
+        if (data && data.fields) {
+            this.accountName = data.fields.Name ? data.fields.Name.value : null;
+            this.accountNumber = data.fields.AccountNumber ? data.fields.AccountNumber.value : null;
+            this.accountIndustry = data.fields.Industry ? data.fields.Industry.value : null;
         } else if (error) {
             console.error(error);
         }
