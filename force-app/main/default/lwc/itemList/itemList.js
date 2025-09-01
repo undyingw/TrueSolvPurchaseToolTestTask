@@ -12,7 +12,7 @@ import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
 export default class ItemList extends LightningElement {
     @track items = [];
     @track cart = [];
-    @api accountId;
+    @api recordId;
 
     // данные аккаунта
     @track accountName;
@@ -45,7 +45,7 @@ export default class ItemList extends LightningElement {
     }
 
     // Аккаунт
-    @wire(getRecord, { recordId: '$accountId', fields: [NAME_FIELD, NUMBER_FIELD, INDUSTRY_FIELD] })
+    @wire(getRecord, { recordId: '$recordId', fields: [NAME_FIELD, NUMBER_FIELD, INDUSTRY_FIELD] })
     wiredAccount({ data, error }) {
         if (data && data.fields) {
             this.accountName = data.fields.Name ? data.fields.Name.value : null;

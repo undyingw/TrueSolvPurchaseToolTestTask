@@ -1,17 +1,17 @@
-import { LightningElement, track } from 'lwc';
 import getImageUrl from '@salesforce/apex/UnsplashService.getImageUrl';
 import { updateRecord } from 'lightning/uiRecordApi';
 import ID_FIELD from '@salesforce/schema/Item__c.Id';
 import IMAGE_FIELD from '@salesforce/schema/Item__c.Image__c';
+import { LightningElement, api, track } from 'lwc';
 
 export default class CreateItemModal extends LightningElement {
     @track isOpen = false;
 
-    openModal() {
+    @api openModal() {
         this.isOpen = true;
     }
 
-    closeModal() {
+    @api closeModal() {
         this.isOpen = false;
     }
 

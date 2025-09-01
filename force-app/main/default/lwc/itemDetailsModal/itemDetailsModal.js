@@ -1,11 +1,11 @@
-import { LightningElement, track } from 'lwc';
 import getItemDetails from '@salesforce/apex/ItemController.getItemDetails';
+import { LightningElement, api, track } from 'lwc';
 
 export default class ItemDetailsModal extends LightningElement {
     @track isOpen = false;
     @track item;
 
-    openModal(itemId) {
+    @api openModal(itemId) {
         getItemDetails({ itemId: itemId })
             .then(result => {
                 this.item = result;
@@ -16,7 +16,7 @@ export default class ItemDetailsModal extends LightningElement {
             });
     }
 
-    closeModal() {
+    @api closeModal() {
         this.isOpen = false;
     }
 }

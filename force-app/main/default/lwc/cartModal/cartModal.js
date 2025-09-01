@@ -14,7 +14,7 @@ export default class CartModal extends LightningElement {
         { label: 'Total', fieldName: 'totalPrice', type: 'currency' }
     ];
 
-    openModal(cart) {
+    @api openModal(cart) {
         // Добавляем вычисляемое поле totalPrice
         this.cart = cart.map(c => ({
             ...c,
@@ -23,7 +23,7 @@ export default class CartModal extends LightningElement {
         this.isOpen = true;
     }
 
-    closeModal() {
+    @api closeModal() {
         this.isOpen = false;
     }
 
